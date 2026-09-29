@@ -1,0 +1,50 @@
+html {
+    font-size: 20px;
+}
+
+.box {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+}
+
+#two {
+    width: 200px;
+}
+
+#three {
+    width: 50vw;
+}
+
+#four {
+    width: 50%;
+}
+
+#parent {
+    width: 600px;
+    border: 1px solid red;
+}
+
+ul {
+    font-family: 'DynaPuff', cursive;
+    list-style-type: square;
+    list-style-position: outside;
+}
+
+ol {
+    font-family: 'Nanum Brush Script', cursive;
+    list-style-type: hangul;
+    list-style-position: inside;
+}
+
+p {
+    color: #999;
+}
+
+.blue {
+    color: #0bd;
+}
+
+#orange {
+    color: #fa2;
+}

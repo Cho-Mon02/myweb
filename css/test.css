@@ -1,0 +1,41 @@
+@charset "utf-8";
+
+body {
+    background-color: #fee;
+    background-image: url("images/고양이.jpeg");
+    background-repeat: no-repeat;
+    background-position: 30px 80px;
+    height: 100vh;
+}
+
+h1 {
+    background-color: #faa;
+    font-weight: bold;
+    font-family: serif;
+    color: #0bd;
+}
+
+p {
+    font-family: "맑은고딕", sans-serif;
+    font-size: 20px;
+    text-align: justify;
+    color: rgba(10, 130, 165, .5);
+    padding: 20px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+div p {
+    font-family: "나눔바른고딕", sans-serif;
+    color: red;
+}
+
+div {
+    line-height: 1.7;
+    background-color: #0bd;
+    margin-top: 30px;
+    margin-left: 100px;
+    padding: 10px;
+    border-width: 4px;
+    border-style: double dotted solid ridge;
+}
