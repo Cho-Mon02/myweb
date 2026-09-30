@@ -7,23 +7,104 @@
     <title>추천 활동</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --jeju-bg: #eaf4fb;
+            --jeju-bg-deep: #bfddea;
+            --jeju-accent: #2d7ea6;
+            --jeju-ocean: #5aa6c7;
+            --jeju-sand: #f7f1e6;
+            --jeju-text: #1f2b36;
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--jeju-bg-deep) 0%, var(--jeju-bg) 26%, var(--jeju-sand) 100%);
+            color: var(--jeju-text);
+        }
+
+        .city-photo-band {
+            margin-bottom: 0;
+            position: relative;
+            height: 25vh;
+            min-height: 160px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .city-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .city-photo-title {
+            position: relative;
+            z-index: 1;
+        }
+
+        .flight-price {
+            margin-top: 0;
+        }
+
+        .flight-price fieldset label {
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .body {
+            background: rgba(255, 255, 255, 0.42);
+            backdrop-filter: blur(2px);
+        }
+
+        .rec {
+            background: rgba(247, 241, 230, 0.96);
+            border: 1px solid rgba(45, 126, 166, 0.18);
+        }
+
+        .thumb img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
     <main class="screen">
         <!-- 도시 사진 영역 (화면 상단 1/4) -->
-        <div class="band" style="margin-bottom: 0;">
+        <div class="band city-photo-band">
+            <img src="jeju.jpg" alt="제주 대표 사진" class="city-photo">
             <a class="back" href="korea.html">← 이전</a>
-            <div><strong>도시 대표 사진</strong><span>선택한 도시의 유명한 사진 영역</span></div>
+            <div class="city-photo-title"><strong>제주</strong></div>
         </div>
 
         <div class="body">
-            <section class="flight-price" aria-label="항공권 가격" style="margin-top: 0;">
+            <section class="flight-price" aria-label="항공권 선택">
                 <div>
-                    <strong>항공권 가격</strong>
-                    <p>선택한 도시까지의 예상 왕복 항공권</p>
+                    <strong>부산 출발 · 제주 도착 항공권</strong>
+                    <p>원하는 항공권을 선택해 주세요.</p>
                 </div>
-                <strong class="price">₩450,000~</strong>
+                <form action="#" method="get">
+                    <fieldset>
+                        <legend>항공권 선택</legend>
+                        <label>
+                            <input type="radio" name="flight" value="morning" required>
+                            오전편 · 부산 08:30 → 제주 09:20 <strong class="price">₩47,000</strong>
+                        </label>
+                        <label>
+                            <input type="radio" name="flight" value="afternoon">
+                            오후편 · 부산 13:00 → 제주 13:50 <strong class="price">₩55,000</strong>
+                        </label>
+                        <label>
+                            <input type="radio" name="flight" value="evening">
+                            저녁편 · 부산 18:10 → 제주 19:00 <strong class="price">₩50,000</strong>
+                        </label>
+                    </fieldset>
+                    <button type="submit">선택한 항공권 구매하기</button>
+                </form>
             </section>
 
             <div>
@@ -34,31 +115,31 @@
             <!-- 한 행에 2개씩 (2×2) -->
             <div class="recs">
                 <article class="rec">
-                    <div class="thumb">사진</div>
+                    <div class="thumb"><img src="jeju1.webp" alt="제주 활동 사진 1"></div>
                     <div>
-                        <h3>장소명 1</h3><span class="tag">활동 종류</span>
-                        <p>이 장소에서 할 수 있는 활동을 간단히 소개합니다.</p>
+                        <h3>성산일출봉</h3><span class="tag">자연 명소</span>
+                        <p>성산일출봉에서의 주요 활동 종류는 일출 감상 및 오름 산책입니다.</p>
                     </div>
                 </article>
                 <article class="rec">
-                    <div class="thumb">사진</div>
+                    <div class="thumb"><img src="jeju2.jpg" alt="제주 활동 사진 2"></div>
                     <div>
-                        <h3>장소명 2</h3><span class="tag">활동 종류</span>
-                        <p>이 장소에서 할 수 있는 활동을 간단히 소개합니다.</p>
+                        <h3>협재해변</h3><span class="tag">에메랄드빛 해변</span>
+                        <p>협재해변에서의 주요 활동 종류는 해수욕 및 바다 산책입니다.</p>
                     </div>
                 </article>
                 <article class="rec">
-                    <div class="thumb">사진</div>
+                    <div class="thumb"><img src="jeju3.jpg" alt="제주 활동 사진 3"></div>
                     <div>
-                        <h3>장소명 3</h3><span class="tag">활동 종류</span>
-                        <p>이 장소에서 할 수 있는 활동을 간단히 소개합니다.</p>
+                        <h3>한라산</h3><span class="tag">산악 명소</span>
+                        <p>한라산에서의 주요 활동 종류는 등산 및 숲길 산책입니다.</p>
                     </div>
                 </article>
                 <article class="rec">
-                    <div class="thumb">사진</div>
+                    <div class="thumb"><img src="jeju4.jpg" alt="제주 활동 사진 4"></div>
                     <div>
-                        <h3>장소명 4</h3><span class="tag">활동 종류</span>
-                        <p>이 장소에서 할 수 있는 활동을 간단히 소개합니다.</p>
+                        <h3>우도</h3><span class="tag">섬 여행 명소</span>
+                        <p>우도에서의 주요 활동 종류는 해안도로 드라이브, 자전거 여행, 해변 산책입니다.</p>
                     </div>
                 </article>
             </div>
