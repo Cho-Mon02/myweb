@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 공부</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Java 복습 페이지</h1>
+    </header>
+    <main>
+        <section aria-labelledby="concept-title">
+            <h2 id="concept-title">오늘의 개념</h2>
+            <h3>Object 메서드 오버라이딩 (toString, equals, hashCode)</h3>
+            <p><strong>한 줄 요약:</strong> 자바의 모든 클래스는 java.lang.Object 클래스를 암시적으로 상속합니다. 객체의 성격에 맞게 동작하도록 기본 메서드를
+                재정의(Override)하는 과정이 필요합니다.</p>
+            <p><strong>자세한 설명:</strong> 핵심 특징
+            <ol>
+                <li>toString()
+                    <ul>
+                        <li>기본 동작: 클래스이름@16진수해시코드 (예: User@5e2de80c)를 반환합니다.</li>
+                        <li>오버라이딩 목적: 객체가 가진 내부 필드 데이터를 사람이 읽기 쉬운 문자열 형태로 확인하기 위해 사용합니다(로깅, 디버깅 필수).</li>
+                    </ul>
+                </li>
+                <li>equals(Object obj)
+                    <ul>
+                        <li>기본 동작: == 연산자와 동일하게 두 객체의 메모리 주소값(동일성, Identity)을 비교합니다.</li>
+                        <li>오버라이딩 목적: 두 객체의 인스턴스가 물리적으로 다르더라도, 내부 필드 데이터가 같으면 논리적으로 같다고 판정하는 동등성(Equality)을 구현하기 위해
+                            사용합니다.</li>
+                    </ul>
+                </li>
+                <li>hashCode() (equals와 반드시 함께 재정의해야 하는 이유)
+                    <ul>
+                        <li>동작 원리: 객체의 메모리 주소나 필드 값을 기반으로 정수 해시코드를 생성합니다.</li>
+                        <li>규칙 (계약 관계):
+                            <ul type="square">
+                                <li>equals()가 true를 반환하는 두 객체는 반드시 동일한 hashCode() 값을 반환해야 합니다.</li>
+                                <li>equals()만 재정의하고 hashCode()를 재정의하지 않으면, HashMap이나 HashSet에 객체를 넣었을 때 논리적으로 같은 키임에도
+                                    불구하고 해시 버킷(Bucket) 위치가 달라져 객체를 조회하지 못하는 버그가 발생합니다.</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+            </ol>
+            </p>
+            <pre class="blue">
+표준 구현 코드 예시
+
+import java.util.Objects;
+
+public class Member {
+    private final int id;
+    private final String name;
+
+    public Member(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // toString() 오버라이딩: 읽기 쉬운 포맷 제공
+    @Override
+    public String toString() {
+        return "Member{id=" + id + ", name='" + name + "'}";
+    }
+
+    // equals() 오버라이딩: 필드 데이터 기반 동등성 비교
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true; // 동일 참조
+        if (o == null || getClass() != o.getClass()) return false; // null 및 타입 검사
+        Member member = (Member) o;
+        return id == member.id && Objects.equals(name, member.name);
+    }
+
+    // hashCode() 오버라이딩: equals와 동일한 필드를 사용하여 해시값 계산
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+}
+            </pre>
+            <ul>
+                <li>기억할 점 1 :<a class="yellow"> toString()은 디버깅·로깅용 문자열 표현: 기본값인 클래스명@해시코드 대신 객체 내부의 실제 필드 값을 사람이 읽기 쉬운
+                        형태로 출력하기 위해 재정의합니다.</a></li>
+                <li>기억할 점 2 : <a class="yellow">equals()와 hashCode()는 반드시 세트로 재정의: 주소 비교(동일성)가 아닌 데이터 비교(동등성)를 위해
+                        equals()를 재정의했다면, HashMap이나 HashSet 같은 해시 컬렉션이 정상 동작하도록 hashCode()도 반드시 함께 구현해야 합니다.</a></li>
+            </ul>
+        </section>
+
+        <section aria-labelledby="quiz-title">
+            <h2 id="quiz-title">개념 확인 문제</h2>
+            <ol>
+                <li>
+                    <p>다음 중 Java의 Object.toString() 메서드에 대한 설명으로 올바르지 않은 것은?</p>
+                    <ol type="a">
+                        <li>toString()을 별도로 오버라이딩하지 않은 클래스의 인스턴스를 출력하면 클래스명@16진수해시코드 형태가 출력된다.</li>
+                        <li>System.out.println(객체)를 호출할 때 객체가 null이 아니면 내부적으로 해당 객체의 toString()이 자동 호출된다.</li>
+                        <li>toString()을 오버라이딩하는 주된 목적은 객체의 메모리 주소값을 숨겨 보안을 강화하기 위함이다.</li>
+                        <li>디버깅과 로깅 시 객체의 필드 상태(이름, ID 등)를 읽기 쉬운 문자열 형태로 확인하기 위해 재정의한다.</li>
+                    </ol>
+                    <details class="answer">
+                        <summary>정답 및 해설 보기</summary>
+                        <p><strong>정답:</strong> C</p>
+                        <p><strong>해설:</strong> toString() 오버라이딩은 보안 목적이 아니라, 개발자가 디버깅이나 로깅을 할 때 객체의 내부 상태(필드 값)를 사람이 읽기
+                            쉬운 포맷으로 직관적으로 파악하기 위해 사용합니다.</p>
+                    </details>
+                </li>
+                <li>
+                    <p>Java에서 equals()와 hashCode()의 관계 및 오버라이딩 규칙에 대한 설명으로 가장 올바른 것은?</p>
+
+                    <ol type="a">
+                        <li>equals() 비교 결과가 true인 두 객체는 반드시 서로 같은 hashCode() 값을 반환해야 한다.</li>
+                        <li>두 객체의 hashCode() 값이 동일하다면, equals() 비교 결과 역시 무조건 true여야 한다.</li>
+                        <li>equals() 메서드는 동등성(필드 값 비교)을 위해 재정의하더라도 hashCode()는 HashSet이나 HashMap 동작에 영향을 주지 않는다.</li>
+                        <li>equals()를 오버라이딩할 때는 반드시 == 연산자만을 사용해 인스턴스의 물리적 메모리 주소를 비교해야 한다.</li>
+                    </ol>
+                    <details class="answer">
+                        <summary>정답 및 해설 보기</summary>
+                        <p><strong>정답:</strong> A</p>
+                        <p><strong>해설:</strong> 자바의 규약상 equals()가 true인 두 객체는 반드시 동일한 hashCode()를 반환해야 합니다. 그렇지 않으면
+                            HashMap 등 해시 기반 컬렉션에서 키 조회가 불가능해집니다.</p>
+                    </details>
+                </li>
+            </ol>
+        </section>
+    </main>
+    <div class="dbtn">
+        <button class="btn" type="button" onclick="location.href='index.html'">이전페이지</button>
+        <button class="btn" type="button" onclick="location.href='next.html'">다음페이지</button>
+    </div>
+</body>
+
+</html>
