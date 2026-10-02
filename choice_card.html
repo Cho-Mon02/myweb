@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>마지막 한마디 — 카드 선택</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --fg: #f4f1ec;
+      --muted: rgba(244, 241, 236, .45);
+      color-scheme: dark;
+      --serif: "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", Batang, serif;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #000;
+        --fg: #f4f1ec
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #000;
+      --fg: #f4f1ec
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--serif)
+    }
+
+    main {
+      padding: clamp(48px, 9vh, 96px) 24px 64px
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      font-weight: 300;
+      font-size: clamp(24px, 3.6vw, 40px);
+      line-height: 1.5;
+      letter-spacing: .04em;
+      word-break: keep-all;
+      text-wrap: balance;
+      animation: rise 1.4s both
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px
+    }
+
+    .card {
+      --c: #fff;
+      font: inherit;
+      color: var(--fg);
+      background: #0b0b0d;
+      border: 1px solid rgba(244, 241, 236, .14);
+      border-radius: 14px;
+      padding: 18px 16px 22px;
+      cursor: pointer;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(18px);
+      pointer-events: none;
+      transition: opacity .8s calc(var(--i)*.09s) ease, transform .5s ease, border-color .35s, box-shadow .35s
+    }
+
+    .zone {
+      position: relative;
+      max-width: 1040px;
+      margin: clamp(32px, 6vh, 56px) auto 0;
+      padding: 28px;
+      border: 1px dashed rgba(244, 241, 236, .22);
+      border-radius: 24px;
+      transition: border-color .6s, box-shadow .6s;
+      outline: none;
+      cursor: default
+    }
+
+    .zone:hover,
+    .zone:focus-within,
+    .zone.open {
+      border-color: rgba(244, 241, 236, .07);
+      box-shadow: 0 0 90px -30px rgba(244, 241, 236, .18)
+    }
+
+    .zone:focus-visible {
+      border-color: #fff
+    }
+
+    .hint {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: clamp(15px, 1.7vw, 19px);
+      letter-spacing: .12em;
+      color: var(--muted);
+      pointer-events: none;
+      transition: opacity .5s
+    }
+
+    .hint .t {
+      display: none
+    }
+
+    @media (hover:none) {
+      .hint .m {
+        display: none
+      }
+
+      .hint .t {
+        display: inline
+      }
+    }
+
+    .zone:hover .hint,
+    .zone:focus-within .hint,
+    .zone.open .hint {
+      opacity: 0
+    }
+
+    .zone:hover .card,
+    .zone:focus-within .card,
+    .zone.open .card {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto
+    }
+
+    .zone:hover .card:hover,
+    .zone .card:focus-visible,
+    .zone.open .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--c);
+      box-shadow: 0 14px 40px -18px var(--c);
+      outline: none
+    }
+
+    .art {
+      aspect-ratio: 1;
+      max-width: 220px;
+      margin: 0 auto;
+      background: radial-gradient(circle at 50% 55%, color-mix(in srgb, var(--c) 26%, transparent), transparent 68%)
+    }
+
+    .art svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: var(--c);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .card b {
+      display: block;
+      font-weight: 600;
+      font-size: clamp(18px, 2vw, 24px);
+      margin-top: 6px
+    }
+
+    .card i {
+      display: block;
+      font-style: normal;
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+      transform: translate(-50%, 12px);
+      background: #18181b;
+      border: 1px solid rgba(244, 241, 236, .2);
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-size: 15px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s, transform .4s;
+      white-space: nowrap
+    }
+
+    .toast.on {
+      opacity: 1;
+      transform: translate(-50%, 0)
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+    }
+
+    @media (max-width:860px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media (max-width:480px) {
+      .grid {
+        gap: 12px
+      }
+
+      .card {
+        padding: 12px 10px 16px
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      h1 {
+        animation: none
+      }
+
+      .card {
+        transition-duration: .01s
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>그 사람에게<br>어떤 마음을 전하고 싶나요?</h1>
+    <div class="zone" id="zone" tabindex="0" aria-label="카드가 나타나는 공간">
+      <p class="hint"><span class="m">이 공간에 마우스를 올려보세요</span><span class="t">이 공간을 눌러보세요</span></p>
+      <div class="grid" id="grid"></div>
+    </div>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    var G = '#f2c96b';
+    var CARDS = [
+      ['고마워', '곁에 있어 줘서', '#f2b866', '<circle cx="60" cy="44" r="13"/><path d="M60 20v-6M60 74v-6M34 44h-6M92 44h-6M42 26l-4-4M78 26l4-4M42 62l-4 4M78 62l4 4"/><path d="M22 80c4 18 20 28 38 28s34-10 38-28c-12 6-24 8-38 8s-26-2-38-8z"/>'],
+      ['미안해', '전하지 못한 사과', '#7ea6d8', '<path d="M16 62C18 36 38 20 60 20s42 16 44 42c-6-6-14-6-20 0-6-6-16-6-24 0-8-6-16-6-24 0-6-6-14-6-20 0z"/><path d="M60 62v32c0 7 11 7 11-1"/><path d="M20 84l-3 9M36 94l-3 9M96 84l-3 9M84 98l-3 9"/>'],
+      ['사랑해', '가장 진심 어린 고백', '#e8708f', '<path d="M60 100C18 70 12 44 28 30c12-10 28-4 32 9 4-13 20-19 32-9 16 14 10 40-32 70z"/><path d="M42 40c-6 2-10 8-8 16" opacity=".5"/>'],
+      ['용서해줘', '풀지 못한 마음을 풀고 싶어', '#a794d6', '<path d="M60 20a40 40 0 1 0 40 40"/><path d="M60 20L70 31 63 41 78 47 73 57 100 60" stroke="' + G + '"/><path d="M94 22l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" stroke="' + G + '"/>'],
+      ['보고싶어', '그리운 마음 한 줄', '#67c1bd', '<path d="M78 22a38 38 0 1 0 24 54A32 32 0 0 1 78 22z"/><path d="M32 26l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/><circle cx="98" cy="96" r="2"/><circle cx="24" cy="88" r="2"/><circle cx="104" cy="40" r="1.6"/>'],
+      ['자랑스러워', '당신이 자랑스러운 이유', '#f0955a', '<circle cx="60" cy="50" r="28"/><path d="M60 34l5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2z"/><path d="M42 74L32 106l16-6 8 12 6-26M78 74l10 32-16-6-8 12"/>']
+    ];
+    var grid = document.getElementById('grid'), toast = document.getElementById('toast'), tm;
+    CARDS.forEach(function (c, i) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'card'; b.style.setProperty('--c', c[2]); b.style.setProperty('--i', i);
+      b.innerHTML = '<div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">' + c[3] + '</svg></div><b>' + c[0] + '</b><i>' + c[1] + '</i>';
+      b.addEventListener('click', function () { var pages = { '고마워': 'thank.html', '미안해': 'sorry.html', '사랑해': 'love.html', '용서해줘': 'forgive.html', '보고싶어': 'miss.html', '자랑스러워': 'proud.html' }; if (pages[c[0]]) { window.location.href = pages[c[0]]; return; } toast.textContent = '‘' + c[0] + '’ 카드를 선택했어요'; toast.classList.add('on'); clearTimeout(tm); tm = setTimeout(function () { toast.classList.remove('on'); }, 2000); });
+      grid.appendChild(b);
+    });
+    var zone = document.getElementById('zone');
+    zone.addEventListener('click', function (e) { if (matchMedia('(hover:none)').matches && !e.target.closest('.card')) zone.classList.toggle('open'); });
+  </script>
+</body>
+
+</html>
