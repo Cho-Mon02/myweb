@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>마지막 한마디</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --fg: #f4f1ec;
+            --muted: rgba(244, 241, 236, .45);
+            --line: rgba(244, 241, 236, .55);
+            color-scheme: dark;
+            --serif: "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", Batang, serif;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media (prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #000;
+                --fg: #f4f1ec
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #000;
+            --fg: #f4f1ec
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--serif);
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block
+        }
+
+        .stage {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 0 24px;
+            pointer-events: none
+        }
+
+        .center {
+            position: relative;
+            text-align: center
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 300;
+            font-size: clamp(28px, 5.4vw, 64px);
+            line-height: 1.55;
+            word-break: keep-all;
+            text-wrap: balance;
+            letter-spacing: .16em;
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(8px);
+            transition: opacity 2.8s ease, filter 2.8s ease, letter-spacing 3.6s cubic-bezier(.2, .7, .2, 1), transform 3.2s ease
+        }
+
+        .on h1 {
+            opacity: 1;
+            filter: blur(0);
+            letter-spacing: .03em;
+            transform: none
+        }
+
+        .cta {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-top: clamp(32px, 6vh, 64px);
+            transform: translate(-50%, 12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.6s ease, transform 1.6s ease, background .3s, color .3s;
+            font: 400 clamp(16px, 1.6vw, 19px)/1 var(--serif);
+            letter-spacing: .3em;
+            text-indent: .3em;
+            color: var(--fg);
+            background: transparent;
+            border: 1px solid var(--line);
+            padding: 18px 44px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap
+        }
+
+        .cta.on {
+            opacity: 1;
+            transform: translate(-50%, 0);
+            pointer-events: auto
+        }
+
+        .cta:hover {
+            background: var(--fg);
+            color: #000
+        }
+
+        .cta:focus-visible,
+        .small:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 4px
+        }
+
+        .hint {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: .08em;
+            transition: opacity 1s;
+            pointer-events: none
+        }
+
+        .small {
+            position: fixed;
+            right: 20px;
+            bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+            background: none;
+            border: 0;
+            color: var(--muted);
+            font: 400 13px var(--serif);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 1s;
+            padding: 8px
+        }
+
+        .small.on {
+            opacity: 1
+        }
+
+        .toast {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s;
+            font-size: clamp(16px, 2vw, 20px);
+            letter-spacing: .1em;
+            color: var(--muted)
+        }
+
+        .toast.on {
+            opacity: 1
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+
+            h1,
+            .cta {
+                transition-duration: .01s
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c" aria-hidden="true"></canvas>
+    <div class="stage" id="stage">
+        <div class="center">
+            <h1 id="ask">지금 당장 생각나는<br>사람이 누구입니까?</h1>
+            <button class="cta" id="cta" type="button" tabindex="-1" aria-hidden="true">카드 선택</button>
+        </div>
+    </div>
+    <div class="hint" id="hint">화면을 누르면 건너뜁니다</div>
+    <button class="small" id="replay" type="button">다시 보기</button>
+    <div class="toast" id="toast" role="status">카드 선택 화면으로 이동합니다</div>
+
+    <script>
+        (function () {
+            var cv = document.getElementById('c'), ctx = cv.getContext('2d');
+            var stage = document.getElementById('stage'), cta = document.getElementById('cta'), hint = document.getElementById('hint'),
+                replay = document.getElementById('replay'), toast = document.getElementById('toast');
+            var W = 0, H = 0, dpr = 1, T = 6200, t0 = 0, raf = 0, done = false, parts = [], timers = [];
+            var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // 별 (암전 후 서서히 보임)
+            var stars = []; for (var i = 0; i < 90; i++) { stars.push({ x: Math.random(), y: Math.random() * .8, r: Math.random() * 1.2 + .3, a: Math.random() * .6 + .2 }); }
+
+            function size() { dpr = Math.min(window.devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); if (done) drawFinal(); }
+            function lerp(a, b, t) { return a + (b - a) * t }
+            function ss(a, b, x) { x = Math.max(0, Math.min(1, (x - a) / (b - a))); return x * x * (3 - 2 * x) }
+            function mix(c1, c2, t) { return 'rgb(' + Math.round(lerp(c1[0], c2[0], t)) + ',' + Math.round(lerp(c1[1], c2[1], t)) + ',' + Math.round(lerp(c1[2], c2[2], t)) + ')' }
+
+            function pos(p) { return { x: lerp(-.14 * W, 1.14 * W, Math.pow(p, 1.12)), y: H * (.16 + .5 * Math.pow(p, 1.7)) } }
+
+            var BODY = new Path2D('M-100 0C-100-14-60-18 20-18C70-18 100-8 120 0C100 8 70 14 20 14L-90 14C-100 14-100 8-100 0Z');
+            var TAIL = new Path2D('M-98-6L-124-46L-96-46L-58-14Z');
+            var WING = new Path2D('M-8 8L-64 50L-38 50L44 12Z');
+            var ENG = new Path2D('M-14 20L18 20L18 31L-14 31Z');
+
+            function sky(d) {
+                var g = ctx.createLinearGradient(0, 0, 0, H);
+                g.addColorStop(0, mix([96, 138, 196], [0, 0, 0], d));
+                g.addColorStop(.6, mix([228, 176, 150], [0, 0, 0], Math.min(1, d * 1.05)));
+                g.addColorStop(1, mix([250, 206, 150], [0, 0, 0], Math.min(1, d * 1.1)));
+                ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+                var sa = ss(.55, 1, d);
+                if (sa > 0) { ctx.fillStyle = '#fff'; for (var i = 0; i < stars.length; i++) { var s = stars[i]; ctx.globalAlpha = sa * s.a; ctx.beginPath(); ctx.arc(s.x * W, s.y * H, s.r, 0, 6.283); ctx.fill(); } ctx.globalAlpha = 1; }
+            }
+
+            function drawPlane(p, d, now) {
+                var P = pos(p), e = .004, P2 = pos(Math.min(1, p + e));
+                var ang = Math.atan2(P2.y - P.y, P2.x - P.x) + .14 + .04 * Math.sin(p * 34);
+                var s = Math.max(.62, Math.min(W, 1400) / 1400) * 1.05;
+                // 연기·불꽃 생성
+                var ca = Math.cos(ang), sa_ = Math.sin(ang), tx = P.x + (-118 * ca) * s, ty = P.y + (-118 * sa_) * s;
+                if (!done && p < .985) { for (var k = 0; k < 3; k++) { parts.push({ x: tx + (Math.random() - .5) * 8 * s, y: ty + (Math.random() - .5) * 8 * s, r: 5 * s, b: now, l: 1500 + Math.random() * 1300, vx: -.015 - Math.random() * .02, vy: -.01 - Math.random() * .02, f: Math.random() < .45 }); } }
+                for (var i = parts.length - 1; i >= 0; i--) {
+                    var q = parts[i], a = (now - q.b) / q.l; if (a >= 1) { parts.splice(i, 1); continue; }
+                    var x = q.x + q.vx * (now - q.b) * W * .06, y = q.y + q.vy * (now - q.b) * H * .04, r = q.r + a * (q.f ? 20 : 44) * s;
+                    if (q.f && a < .45) { ctx.fillStyle = 'rgba(255,' + Math.round(170 - a * 200) + ',40,' + (.55 * (1 - a / .45)) + ')'; }
+                    else { var g = Math.round(lerp(96, 30, d)); ctx.fillStyle = 'rgba(' + g + ',' + g + ',' + g + ',' + (.5 * (1 - a)) + ')'; }
+                    ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+                }
+                // 비행기
+                ctx.save(); ctx.translate(P.x, P.y); ctx.rotate(ang); ctx.scale(s, s);
+                var k2 = 1 - d * .8;
+                ctx.fillStyle = mix([160, 170, 184], [26, 28, 34], d); ctx.fill(WING);
+                ctx.fillStyle = mix([196, 60, 52], [40, 16, 16], d); ctx.fill(TAIL);
+                ctx.fillStyle = mix([238, 241, 246], [34, 36, 44], d); ctx.fill(BODY);
+                ctx.fillStyle = mix([120, 130, 146], [20, 22, 28], d); ctx.fill(ENG);
+                ctx.fillStyle = mix([70, 92, 130], [250, 170, 70], Math.min(1, d * 1.2));
+                for (var w = 0; w < 9; w++) { ctx.beginPath(); ctx.arc(-70 + w * 13, -6, 2.6, 0, 6.283); ctx.fill(); }
+                // 엔진 불꽃
+                var fg = ctx.createRadialGradient(2, 26, 0, 2, 26, 46); fg.addColorStop(0, 'rgba(255,200,90,.95)'); fg.addColorStop(.35, 'rgba(255,110,30,.6)'); fg.addColorStop(1, 'rgba(255,60,0,0)');
+                ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = fg; ctx.beginPath(); ctx.arc(2, 26, 46, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = 'source-over';
+                ctx.restore();
+            }
+
+            function frame(now) {
+                var el = now - t0, p = Math.min(1, el / T), d = ss(.1, .88, p);
+                var shake = (p > .08 && p < .96) ? (1 - Math.abs(p - .5) * 1.4) * 3 : 0;
+                ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, (Math.random() - .5) * shake * dpr, (Math.random() - .5) * shake * dpr);
+                sky(d); drawPlane(p, d, now); ctx.restore();
+                if (p >= 1) { finish(true); return; }
+                raf = requestAnimationFrame(frame);
+            }
+            function drawFinal() {
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+                for (var i = 0; i < stars.length; i++) { var s = stars[i]; ctx.globalAlpha = s.a * .8; ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.x * W, s.y * H, s.r, 0, 6.283); ctx.fill(); } ctx.globalAlpha = 1;
+            }
+
+            function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+            function finish(natural) {
+                if (done) return; done = true; cancelAnimationFrame(raf); parts = []; drawFinal(); hint.style.opacity = 0;
+                later(function () { stage.classList.add('on'); }, natural ? 500 : 200);
+                later(function () { cta.classList.add('on'); cta.removeAttribute('aria-hidden'); cta.tabIndex = 0; replay.classList.add('on'); }, natural ? 4600 : 4300);
+            }
+            function start() {
+                timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf);
+                done = false; parts = []; stage.classList.remove('on'); cta.classList.remove('on'); cta.setAttribute('aria-hidden', 'true'); cta.tabIndex = -1; replay.classList.remove('on'); hint.style.opacity = 1;
+                if (reduce) { done = false; finish(false); return; }
+                t0 = performance.now(); raf = requestAnimationFrame(frame);
+            }
+            function skip() { if (!done) finish(false); }
+            document.addEventListener('pointerdown', function (e) { if (e.target === cta || e.target === replay) return; skip(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') { if (!done && document.activeElement === document.body) { skip(); } } });
+            replay.addEventListener('click', function (e) { e.stopPropagation(); start(); });
+            cta.addEventListener('click', function () { window.location.href = 'choice_card.html'; });
+            addEventListener('resize', size);
+            size(); start();
+        })();
+    </script>
+</body>
+
+</html>

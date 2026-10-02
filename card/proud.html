@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>마지막 한마디 — 메시지 작성</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;500&family=Noto+Serif+KR:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Dongle&family=East+Sea+Dokdo&family=Single+Day&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --fg: #f4f1ec;
+      --muted: rgba(244, 241, 236, .5);
+      --line: rgba(244, 241, 236, .18);
+      --c: #f2b866;
+      color-scheme: dark;
+      --serif: "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", Batang, serif;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #000;
+        --fg: #f4f1ec
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #000;
+      --fg: #f4f1ec
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--serif)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: clamp(28px, 6vh, 56px) 24px 72px
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .back {
+      background: none;
+      border: 0;
+      color: var(--muted);
+      font: 400 14px var(--serif);
+      cursor: pointer;
+      padding: 8px 4px
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 40px;
+      margin-top: clamp(24px, 5vh, 44px)
+    }
+
+    .sel {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+      text-align: center;
+      background: #0b0b0d;
+      border: 1px solid var(--c);
+      border-radius: 14px;
+      padding: 20px 16px 26px;
+      box-shadow: 0 14px 50px -24px var(--c)
+    }
+
+    .sel .l {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .art {
+      aspect-ratio: 1;
+      max-width: 220px;
+      margin: 6px auto 0;
+      background: radial-gradient(circle at 50% 55%, color-mix(in srgb, var(--c) 26%, transparent), transparent 68%)
+    }
+
+    .art svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: var(--c);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .sel b {
+      display: block;
+      font-size: 28px;
+      font-weight: 600;
+      margin-top: 6px
+    }
+
+    .sel i {
+      display: block;
+      font-style: normal;
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.6;
+      word-break: keep-all
+    }
+
+    h1 {
+      margin: 0 0 28px;
+      font-weight: 300;
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.4;
+      word-break: keep-all
+    }
+
+    fieldset {
+      border: 0;
+      margin: 0 0 26px;
+      padding: 0
+    }
+
+    legend,
+    label.t {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      padding: 0
+    }
+
+    .fonts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .fonts input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .fonts label {
+      cursor: pointer;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 18px;
+      line-height: 1.2;
+      transition: border-color .25s, background .25s
+    }
+
+    .fonts label small {
+      display: block;
+      font: 400 11px var(--serif);
+      color: var(--muted);
+      margin-top: 5px
+    }
+
+    .fonts input:checked+label {
+      border-color: var(--c);
+      background: color-mix(in srgb, var(--c) 14%, transparent)
+    }
+
+    .fonts input:focus-visible+label {
+      outline: 2px solid #fff;
+      outline-offset: 3px
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px
+    }
+
+    .f {
+      margin-bottom: 22px
+    }
+
+    .row .f {
+      margin: 0
+    }
+
+    input.in,
+    textarea {
+      width: 100%;
+      background: #0b0b0d;
+      color: var(--fg);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font: 400 16px var(--serif);
+      transition: border-color .25s
+    }
+
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+      font-size: 19px;
+      line-height: 1.85
+    }
+
+    input.in:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--c)
+    }
+
+    ::placeholder {
+      color: rgba(244, 241, 236, .28)
+    }
+
+    .err {
+      min-height: 18px;
+      margin-top: 6px;
+      font-size: 12.5px;
+      color: #ff9b8f
+    }
+
+    .cnt {
+      text-align: right;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 6px
+    }
+
+    .cnt.hi {
+      color: var(--c)
+    }
+
+    .act {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 8px
+    }
+
+    .btn {
+      font: 600 16px var(--serif);
+      letter-spacing: .2em;
+      text-indent: .2em;
+      padding: 15px 38px;
+      border-radius: 999px;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: none;
+      color: var(--fg)
+    }
+
+    .btn.p {
+      background: var(--c);
+      border-color: var(--c);
+      color: #000;
+      transition: filter .25s, opacity .25s
+    }
+
+    .btn.p:hover:not(:disabled) {
+      filter: brightness(1.12)
+    }
+
+    .btn:disabled {
+      opacity: .35;
+      cursor: not-allowed
+    }
+
+    .btn:focus-visible,
+    .back:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+      transform: translate(-50%, 12px);
+      background: #18181b;
+      border: 1px solid var(--line);
+      padding: 14px 26px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s, transform .4s;
+      white-space: nowrap;
+      font-size: 15px
+    }
+
+    .toast.on {
+      opacity: 1;
+      transform: translate(-50%, 0)
+    }
+
+    @media (max-width:820px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 24px
+      }
+
+      .sel {
+        position: static;
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        gap: 4px 16px;
+        text-align: left;
+        align-items: center;
+        padding: 14px 16px
+      }
+
+      .sel .l {
+        grid-column: 2
+      }
+
+      .art {
+        grid-row: 1/4;
+        margin: 0
+      }
+
+      .sel b {
+        font-size: 22px;
+        margin: 0
+      }
+
+      .sel i {
+        margin: 0
+      }
+
+      .row {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="top">
+      <button class="back" id="back" type="button">← 카드 다시 선택</button>
+    </div>
+    <div class="layout">
+      <aside class="sel" aria-live="polite">
+        <span class="l">선택한 카드</span>
+        <div class="art"><svg id="art" viewBox="0 0 120 120" aria-hidden="true"></svg></div>
+        <b id="cname"></b><i id="cdesc"></i>
+      </aside>
+      <section>
+        <h1 id="h1"></h1>
+        <fieldset>
+          <legend>글씨체</legend>
+          <div class="fonts" id="fonts" role="radiogroup"></div>
+        </fieldset>
+        <div class="row">
+          <div class="f"><label class="t" for="name">받는 사람 이름</label><input class="in" id="name" maxlength="20"
+              autocomplete="off" placeholder="예) 김하늘">
+            <div class="err" id="e-name"></div>
+          </div>
+          <div class="f"><label class="t" for="email">받는 사람 이메일</label><input class="in" id="email" type="email"
+              autocomplete="off" placeholder="예) sky@email.com">
+            <div class="err" id="e-email"></div>
+          </div>
+        </div>
+        <div class="f"><label class="t" for="msg">메시지 내용</label><textarea id="msg" maxlength="500"></textarea>
+          <div class="cnt" id="cnt">0 / 500</div>
+          <div class="err" id="e-msg"></div>
+        </div>
+        <div class="act"><button class="btn" id="prev" type="button">이전</button><button class="btn p" id="send"
+            type="button" disabled>보내기</button></div>
+      </section>
+    </div>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    /* ===== 내 폰트 추가 (2/2) : 여기에 한 줄만 추가하면 라디오가 생깁니다 ===== */
+    var FONTS = [
+      { id: 'serif', label: '명조', family: '"Noto Serif KR",serif' },
+      { id: 'myeong', label: '나눔명조', family: '"Nanum Myeongjo",serif' },
+      { id: 'batang', label: '고운바탕', family: '"Gowun Batang",serif' },
+      { id: 'pen', label: '손글씨', family: '"Nanum Pen Script",cursive', scale: 1.35 },
+      { id: 'sans', label: '고딕', family: '"Noto Sans KR",sans-serif' },
+      { id: 'love', label: '사랑', family: '"Single Day",serif' },
+      { id: 'proud', label: '자랑', family: '"Black And White Picture",serif' },
+      { id: 'soft', label: '부드러움', family: '"Dongle",serif' }
+
+    ];
+    /* 카드별 변형 (틀은 하나, 문구·색·그림만 교체) */
+    var G = '#f2c96b';
+    var CARDS = {
+      thanks: { n: '고마워', d: '늘 곁에 있어 준 고마움을 전해보세요.', c: '#f2b866', p: '그동안 말하지 못했지만, 당신이 내 곁에 있어 준 것만으로 큰 힘이 되었어요.', a: '<circle cx="60" cy="44" r="13"/><path d="M60 20v-6M60 74v-6M34 44h-6M92 44h-6M42 26l-4-4M78 26l4-4M42 62l-4 4M78 62l4 4"/><path d="M22 80c4 18 20 28 38 28s34-10 38-28c-12 6-24 8-38 8s-26-2-38-8z"/>' },
+      sorry: { n: '미안해', d: '전하지 못한 사과를 진심으로 남겨보세요.', c: '#7ea6d8', p: '그때 내가 그렇게 말해서 정말 미안해요. 많이 아팠을 텐데…', a: '<path d="M16 62C18 36 38 20 60 20s42 16 44 42c-6-6-14-6-20 0-6-6-16-6-24 0-8-6-16-6-24 0-6-6-14-6-20 0z"/><path d="M60 62v32c0 7 11 7 11-1"/><path d="M20 84l-3 9M36 94l-3 9M96 84l-3 9M84 98l-3 9"/>' },
+      love: { n: '사랑해', d: '가장 진심 어린 고백을 적어보세요.', c: '#e8708f', p: '당신을 만나 참 많이 행복했어요. 사랑해요, 언제나.', a: '<path d="M60 100C18 70 12 44 28 30c12-10 28-4 32 9 4-13 20-19 32-9 16 14 10 40-32 70z"/><path d="M42 40c-6 2-10 8-8 16" opacity=".5"/>' },
+      forgive: { n: '용서해줘', d: '풀지 못한 마음을 화해로 이어보세요.', c: '#a794d6', p: '서로 마음 상했던 일, 이제는 다 내려놓고 싶어요. 용서해 줄래요?', a: '<path d="M60 20a40 40 0 1 0 40 40"/><path d="M60 20L70 31 63 41 78 47 73 57 100 60" stroke="' + G + '"/><path d="M94 22l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" stroke="' + G + '"/>' },
+      miss: { n: '보고싶어', d: '그리운 마음을 한 줄로 남겨보세요.', c: '#67c1bd', p: '문득문득 당신 생각이 나요. 많이 보고 싶어요.', a: '<path d="M78 22a38 38 0 1 0 24 54A32 32 0 0 1 78 22z"/><path d="M32 26l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/><circle cx="98" cy="96" r="2"/><circle cx="24" cy="88" r="2"/><circle cx="104" cy="40" r="1.6"/>' },
+      proud: { n: '자랑스러워', d: '당신이 자랑스러운 이유를 알려주세요.', c: '#f0955a', p: '힘든 순간에도 포기하지 않은 당신이 정말 자랑스러워요.', a: '<circle cx="60" cy="50" r="28"/><path d="M60 34l5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2z"/><path d="M42 74L32 106l16-6 8 12 6-26M78 74l10 32-16-6-8 12"/>' }
+    };
+    var $ = function (i) { return document.getElementById(i) };
+    var msg = $('msg'), nm = $('name'), em = $('email'), send = $('send'), cnt = $('cnt'), toast = $('toast'), tm, cur = 'proud';
+
+    /* 폰트 라디오 */
+    FONTS.forEach(function (f, i) {
+      var id = 'f-' + f.id, inp = document.createElement('input');
+      inp.type = 'radio'; inp.name = 'font'; inp.id = id; inp.value = f.id; if (i === 0) inp.checked = true;
+      var lb = document.createElement('label'); lb.htmlFor = id; lb.style.fontFamily = f.family;
+      lb.innerHTML = '가나다 Abc<small>' + f.label + '</small>';
+      inp.addEventListener('change', applyFont);
+      $('fonts').appendChild(inp); $('fonts').appendChild(lb);
+    });
+    function applyFont() {
+      var v = document.querySelector('input[name=font]:checked').value, f = FONTS.filter(function (x) { return x.id === v })[0];
+      msg.style.fontFamily = f.family; msg.style.fontSize = (19 * (f.scale || 1)) + 'px';
+    }
+
+    /* 카드 렌더 */
+    function render(id) {
+      if (!CARDS[id]) id = 'proud'; cur = id; var c = CARDS[id];
+      document.documentElement.style.setProperty('--c', c.c);
+      $('art').innerHTML = c.a; $('cname').textContent = c.n; $('cdesc').textContent = c.d;
+      $('h1').textContent = '‘' + c.n + '’ 메시지 작성'; msg.placeholder = '예) ' + c.p;
+      document.title = '마지막 한마디 — ' + c.n;
+    }
+    /* 검증 */
+    var touched = {};
+    function check(show) {
+      var ok1 = nm.value.trim().length >= 1 && nm.value.trim().length <= 20,
+        ok2 = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim()),
+        ok3 = msg.value.trim().length >= 1;
+      $('e-name').textContent = (show || touched.n) && !ok1 ? '받는 사람 이름을 입력해주세요.' : '';
+      $('e-email').textContent = (show || touched.e) && !ok2 ? '올바른 이메일 주소를 입력해주세요.' : '';
+      $('e-msg').textContent = (show || touched.m) && !ok3 ? '메시지를 입력해주세요.' : '';
+      send.disabled = !(ok1 && ok2 && ok3); return !send.disabled;
+    }
+    [['n', nm], ['e', em], ['m', msg]].forEach(function (p) { p[1].addEventListener('blur', function () { touched[p[0]] = true; check(); }); p[1].addEventListener('input', function () { check(); }); });
+    msg.addEventListener('input', function () { var n = msg.value.length; cnt.textContent = n + ' / 500'; cnt.className = 'cnt' + (n >= 450 ? ' hi' : ''); });
+    function say(t) { toast.textContent = t; toast.classList.add('on'); clearTimeout(tm); tm = setTimeout(function () { toast.classList.remove('on'); }, 2200); }
+    send.addEventListener('click', function () { if (check(true)) { var d = { card: cur, name: nm.value.trim(), email: em.value.trim() }; try { sessionStorage.setItem('lastWord', JSON.stringify(d)); } catch (e) { } location.href = 'done.html#card=' + encodeURIComponent(d.card) + '&name=' + encodeURIComponent(d.name) + '&email=' + encodeURIComponent(d.email); } });
+    $('prev').addEventListener('click', function () { history.length > 1 ? history.back() : say('카드 선택 화면으로 이동합니다'); });
+    $('back').addEventListener('click', function () { location.href = 'choice_card.html'; });
+
+    var q = (new URLSearchParams(location.search)).get('card') || location.hash.replace('#', '') || 'proud';
+    render(q); applyFont();
+  </script>
+</body>
+
+</html>

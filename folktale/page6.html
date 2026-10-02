@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>날씨를 파는 소년 - 페이지 6</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #f6eddc;
+            --ink: #2b2a3a;
+            --serif: "Gowun Batang", "Noto Serif KR", serif
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--serif)
+        }
+
+        .book {
+            display: grid;
+            grid-template-columns: 1fr;
+            min-height: 100vh
+        }
+
+        .art {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden
+        }
+
+        .cover .art {
+            grid-column: 1/-1
+        }
+
+        .cover .ttl {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 9vh;
+            text-align: center;
+            color: black;
+            text-shadow: 0 2px 18px #0a0e2a;
+            pointer-events: none
+        }
+
+        .cover h1 {
+            margin: 0;
+            font-family: "Nanum Pen Script", cursive;
+            font-weight: 400;
+            font-size: clamp(64px, 11vw, 128px);
+            line-height: 1
+        }
+
+        .cover .by {
+            margin-top: 14px;
+            font-size: 18px;
+            letter-spacing: .3em
+        }
+
+        /* 하단 이전/다음 버튼 */
+        .cover .nav {
+            position: absolute;
+            left: 50%;
+            bottom: 6vh;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 14px;
+            z-index: 10
+        }
+
+        .cover .go {
+            color: #fbeec2;
+            border: 1px solid #fbeec2;
+            border-radius: 999px;
+            padding: 14px 38px;
+            text-decoration: none;
+            letter-spacing: .2em;
+            background: #0f1535aa;
+            white-space: nowrap
+        }
+
+        .cover .go:hover,
+        .cover .go:focus-visible {
+            background: #fbeec2;
+            color: #0f1535
+        }
+
+        /* 책의 양쪽 끝: 클릭하면 이전/다음 페이지로 이동 */
+        .edge {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: clamp(56px, 12%, 140px);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fbeec2;
+            font-size: 44px;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity .2s
+        }
+
+        .edge.prev {
+            left: 0;
+            background: linear-gradient(to right, #0f153566, transparent)
+        }
+
+        .edge.next {
+            right: 0;
+            background: linear-gradient(to left, #0f153566, transparent)
+        }
+
+        .edge:hover,
+        .edge:focus-visible {
+            opacity: 1;
+            outline: none
+        }
+
+        /* 터치 화면은 hover가 없으므로 화살표를 은은하게 항상 표시 */
+        @media (hover: none) {
+            .edge {
+                opacity: .45
+            }
+        }
+
+        @media (max-width: 600px) {
+            .art {
+                min-height: 100svh;
+                background-position: center;
+            }
+
+            .cover .ttl {
+                padding: 12vh 16px 0;
+            }
+
+            .cover h1 {
+                font-size: clamp(48px, 13vw, 76px);
+            }
+
+            .cover .by {
+                margin-top: 10px;
+                font-size: 16px;
+            }
+
+            .cover .nav {
+                bottom: 5vh;
+                gap: 10px;
+            }
+
+            .cover .go {
+                padding: 12px 22px;
+                font-size: 14px;
+            }
+        }
+
+        .art {
+            background: linear-gradient(#8fc1ee 0%, #fbe3b8 60%, #ecd09a 63%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        /* 그림 크기만큼만 차지하는 무대: 양쪽 끝 클릭 영역의 기준이 됨 */
+        .stage {
+            position: relative;
+            display: block;
+            max-width: 100%;
+            line-height: 0
+        }
+
+        .stage img {
+            display: block;
+            height: 100vh;
+            height: 100svh;
+            width: auto;
+            max-width: 100vw;
+            object-fit: cover;
+            object-position: center bottom
+        }
+
+        .p1 {
+            position: relative;
+            text-align: left;
+            color: white;
+            bottom: 70px;
+            right: 60px;
+        }
+
+        .p2 {
+            position: relative;
+            color: white;
+            text-align: left;
+            right: 180px;
+        }
+
+        .p3 {
+            position: relative;
+            color: white;
+            text-align: right;
+            left: 120px;
+        }
+    </style>
+</head>
+
+<body class="cover">
+    <main class="book">
+        <div class="art">
+            <!-- 배경 그림 + 그림의 양쪽 끝 클릭 영역 -->
+            <div class="stage">
+                <img src="images/market_stars.svg" alt="">
+                <a class="edge prev" rel="prev" href="page5.html" aria-label="이전 페이지">&#8249;</a>
+                <a class="edge next" rel="next" href="page7.html" aria-label="다음 페이지">&#8250;</a>
+            </div>
+
+            <div class="ttl">
+                <p class="p1">
+                    날씨를 전부 판 소년은 빈 손으로 집에 돌아왔어요. 소년은 그날 밤, 나무 위에 앉아 고민했어요.<br>
+                    “이젠 무엇을 팔아야 할까?”<br>
+                    그때 밤하늘 저 멀리서 거북이 한 마리가 소년의 머리 위로 지나갔어요. 소년이 인사했어요.
+                </p><br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p class="p2">“거북아, 안녕!”
+                    “끄으응.”<br>
+                    거북이는 소년의 목소리를 미처 듣지 못하고 날다가 똥을 쌌어요. <br>
+                    소년은 하늘에서 쏟아지는 똥에 맞고 말았지요.<br>
+                    “소년아, 미안해. 널 보지 못했구나. 괜찮니?”<br>
+                    “응. 괜찮아. 닦아내면 돼.”<br>
+                    소년은 머리에 묻은 똥을 닦아냈어요. 그런데 이게 웬일일까요? <br>
+                    똥은 아주 예쁘고 밝은 노란빛을 내었어요. 그건 세 개의 별이었어요. <br>
+                    소년은 거북이에게 외쳤어요.<br><br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </p>
+                <p class="p3">
+                    “고마워! 나에게 할 일이 생겼단다!”<br>
+                    거북이는 바닷속으로 사라지며 남몰래 소원을 빌었어요.<br>
+                    ‘용왕님, 소년의 할 일이 무엇인지는 모르겠지만 좋은 일이 가득하도록 도와주세요.’
+                </p>
+            </div>
+
+            <!-- 하단 버튼 -->
+            <div class="nav">
+                <a class="go" rel="prev" href="page5.html">이전 페이지</a>
+                <a class="go" rel="next" href="page7.html">다음 페이지</a>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
