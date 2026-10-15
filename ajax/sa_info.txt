@@ -1,0 +1,47 @@
+<div class="gecko-card savannah-theme">
+    <div class="gecko-header">
+      <span class="badge savannah-badge">Monitor Lizard</span>
+      <h2>사바나 모니터 (Savannah Monitor)</h2>
+      <p class="scientific-name">Varanus exanthematicus</p>
+    </div>
+
+    <div class="gecko-image-wrapper">
+      <img src="images/sa.png" alt="사바나 모니터" class="gecko-img">
+    </div>
+
+    <div class="gecko-content">
+      <p class="description">
+        아프리카 사바나 초원 지대에 서식하는 중대형 모니터(왕도마뱀)입니다.
+        단단하고 묵직한 체형과 비교적 온순한 성격으로 인기가 많으며, 성체 시 80~100cm 이상 자라므로 충분한 활동 공간과 높은 온도의 바스킹 구역이 필수적입니다.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">바스킹존 온도</span>
+          <span class="info-value">45°C ~ 50°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">쿨존 온도</span>
+          <span class="info-value">26°C ~ 28°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">적정 습도</span>
+          <span class="info-value">40% ~ 60% (버로우용 깊은 바닥재)</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">주요 먹이 (육식)</span>
+          <span class="info-value">귀뚜라미, 핑키, 계란, 갑각류</span>
+        </div>
+      </div>
+
+      <div class="morph-section">
+        <h3>주요 사육 특징</h3>
+        <div class="morph-tags">
+          <span class="tag">중대형 파충류</span>
+          <span class="tag">고온 바스킹 필수</span>
+          <span class="tag">버로우(땅파기) 본능</span>
+          <span class="tag">주행성 육식 도마뱀</span>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,49 @@
+<div class="gecko-card gargoyle-theme">
+    <div class="gecko-header">
+      <span class="badge gargoyle-badge">New Caledonian Gecko</span>
+      <h2>가고일 게코 (Gargoyle Gecko)</h2>
+      <p class="scientific-name">Rhacodactylus auriculatus</p>
+    </div>
+
+    <div class="gecko-image-wrapper">
+      <img src="images/ga.png" alt="가고일 게코" class="gecko-img">
+    </div>
+
+    <div class="gecko-content">
+      <p class="description">
+        머리 뒤쪽에 작은 뿔 모양 돌기(귀 모양 골질)가 돋아 있어 '가고일'이라는 이름이 붙은 뉴칼레도니아 도마뱀붙이입니다.
+        크레스티드 게코와 서식지와 습성이 매우 유사하지만, 꼬리가 잘려도 다시 재생된다는 뛰어난 장점을 지니고 있습니다.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">적정 온도</span>
+          <span class="info-value">22°C ~ 26°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">적정 습도</span>
+          <span class="info-value">60% ~ 80% (벽면 분무)</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">주요 먹이</span>
+          <span class="info-value">슈퍼푸드, 귀뚜라미</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">평균 수명</span>
+          <span class="info-value">15년 ~ 20년</span>
+        </div>
+      </div>
+
+      <div class="morph-section">
+        <h3>주요 모프 및 패턴</h3>
+        <div class="morph-tags">
+          <span class="tag">스트라이프 (Stripe)</span>
+          <span class="tag">블로치 (Blotched)</span>
+          <span class="tag">레드 블로치</span>
+          <span class="tag">오렌지 스트라이프</span>
+          <span class="tag">레티큘레이트</span>
+          <span class="tag">베이컨 (Bacon)</span>
+        </div>
+      </div>
+    </div>
+  </div>
