@@ -1,0 +1,47 @@
+<div class="gecko-card">
+    <div class="gecko-header">
+      <span class="badge">Reptile Profile</span>
+      <h2>크레스티드 게코 (Crested Gecko)</h2>
+      <p class="scientific-name">Correlophus ciliatus</p>
+    </div>
+
+    <div class="gecko-image-wrapper">
+      <img src="images/crested.png" alt="크레스티드 게코" class="gecko-img">
+    </div>
+
+    <div class="gecko-content">
+      <p class="description">
+        눈 위에 속눈썹 같은 독특한 돌기가 있어 <strong>'속눈썹 도마뱀'</strong>으로도 불리는 뉴칼레도니아 원산의 도마뱀붙이입니다.
+        온순한 성격과 전용 사료(슈퍼푸드) 급여가 가능해 파충류 입문자부터 마니아까지 많은 사랑을 받고 있습니다.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">적정 온도</span>
+          <span class="info-value">22°C ~ 26°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">적정 습도</span>
+          <span class="info-value">60% ~ 80%</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">주요 먹이</span>
+          <span class="info-value">슈퍼푸드, 귀뚜라미</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">평균 수명</span>
+          <span class="info-value">15년 ~ 20년</span>
+        </div>
+      </div>
+
+      <div class="morph-section">
+        <h3>주요 모프 (Morph)</h3>
+        <div class="morph-tags">
+          <span class="tag">릴리 화이트 (Lilly White)</span>
+          <span class="tag">아잔틱 (Axanthic)</span>
+          <span class="tag">하arlequin / 익스트림</span>
+          <span class="tag">트라이컬러</span>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            width: min(100%, 1000px);
+            margin: 0 auto;
+        }
+
+        #title {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        #title h1 {
+            color: #1f2937;
+            font-size: clamp(26px, 4vw, 36px);
+            letter-spacing: -0.04em;
+        }
+
+        #menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        #menu_ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        li {
+            margin: 0;
+            background: none;
+        }
+
+        #menu button {
+            border: 1px solid #d1d5db;
+            border-radius: 999px;
+            padding: 10px 18px;
+            background: #ffffff;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        #menu button:hover,
+        #menu button:focus-visible {
+            border-color: #059669;
+            background: #ecfdf5;
+            color: #047857;
+            outline: none;
+        }
+
+        #content {
+            text-align: center;
+        }
+
+        #content .gecko-card {
+            margin: 0 auto 24px;
+            text-align: left;
+        }
+
+        /* 기본 리셋 및 폰트 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            min-height: 100vh;
+            padding: 48px 24px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 28px 16px;
+            }
+
+            #menu button {
+                padding: 9px 14px;
+                font-size: 13px;
+            }
+        }
+
+        /* 메인 카드 컨테이너 */
+        .gecko-card {
+            max-width: 480px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        /* 상단 헤더 */
+        .gecko-header {
+            padding: 24px 24px 16px;
+        }
+
+        .gecko-header .badge {
+            display: inline-block;
+            background-color: #ecfdf5;
+            color: #059669;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        .gecko-header h2 {
+            font-size: 22px;
+            color: #111827;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .gecko-header .scientific-name {
+            font-size: 13px;
+            color: #6b7280;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        /* 이미지 영역 */
+        .gecko-image-wrapper {
+            width: 100%;
+            height: 240px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .gecko-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gecko-card:hover .gecko-img {
+            transform: scale(1.03);
+        }
+
+        /* 본문 내용 */
+        .gecko-content {
+            padding: 20px 24px 28px;
+        }
+
+        .description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 20px;
+        }
+
+        /* 케어 가이드 그리드 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .info-item {
+            background-color: #f9fafb;
+            border: 1px solid #f3f4f6;
+            padding: 12px 14px;
+            border-radius: 12px;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* 모프 태그 섹션 */
+        .morph-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+
+        .morph-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background-color: #f3f4f6;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .tag:hover {
+            background-color: #e5e7eb;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="title">
+            <h1>파충류 소개</h1>
+        </div>
+        <div id="menu">
+            <ul id="menu_ul">
+                <li><button onclick="load(cr)">크레스티드 게코</button></li>
+                <li><button onclick="load(leo)">레오파드 게코</button></li>
+                <li><button onclick="load(bi)">비어디 드래곤</button></li>
+            </ul>
+        </div>
+        <div id="content">
+
+        </div>
+    </div>
+
+
+    <script>
+        let cr = "cr_info.txt";
+        let leo = 'leo_info.txt';
+        let bi = 'bi_info.txt';
+        const btn1 = document.getElementById('btn1');
+        const btn2 = document.getElementById('btn2');
+        const btn3 = document.getElementById('btn3');
+        const content = document.getElementById('content');
+        function load(ad) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("GET", ad);
+
+            xhttp.onload = function () {
+                const contents = xhttp.responseText;
+                content.innerHTML = contents;
+            }
+            xhttp.send();   //보내기 
+        }
+
+    </script>
+</body>
+
+</html>

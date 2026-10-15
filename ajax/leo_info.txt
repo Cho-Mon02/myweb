@@ -1,0 +1,49 @@
+<div class="gecko-card leopard-theme">
+    <div class="gecko-header">
+      <span class="badge leopard-badge">Terrestrial Gecko</span>
+      <h2>레오파드 게코 (Leopard Gecko)</h2>
+      <p class="scientific-name">Eublepharis macularius</p>
+    </div>
+
+    <div class="gecko-image-wrapper">
+      <img src="images/leopard.png" alt="레오파드 게코" class="gecko-img">
+    </div>
+
+    <div class="gecko-content">
+      <p class="description">
+        표범 같은 아름다운 점박이 무늬와 통통한 꼬리가 매력적인 지주성(땅에서 사는) 도마뱀입니다.
+        발바닥에 빨판이 없어 벽을 타지 못하며, 눈꺼풀이 있어 눈을 감고 잠을 자거나 웃는 듯한 표정을 짓는 것이 큰 매력입니다.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">핫존 온도</span>
+          <span class="info-value">30°C ~ 32°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">쿨존 온도</span>
+          <span class="info-value">24°C ~ 26°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">적정 습도</span>
+          <span class="info-value">30% ~ 40% (탈피 시 습식 은신처)</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">주요 먹이</span>
+          <span class="info-value">밀웜, 귀뚜라미 (칼슘 더스팅 필수)</span>
+        </div>
+      </div>
+
+      <div class="morph-section">
+        <h3>주요 모프 (Morph)</h3>
+        <div class="morph-tags">
+          <span class="tag">노멀 (Normal / Wild)</span>
+          <span class="tag">하이옐로우 (High Yellow)</span>
+          <span class="tag">텐저린 (Tangerine)</span>
+          <span class="tag">맥스노우 (Mack Snow)</span>
+          <span class="tag">블리자드 (Blizzard)</span>
+          <span class="tag">디아블로 블랑코</span>
+        </div>
+      </div>
+    </div>
+  </div>

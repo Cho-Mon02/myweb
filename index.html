@@ -1,21 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>작업 모음</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 64px 24px;
+            color: #202b3c;
+            font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+            background: linear-gradient(135deg, #e9f3ff, #f8f0ff);
+        }
+
+        main {
+            width: min(100%, 680px);
+            margin: 0 auto;
+        }
+
+        .intro {
+            margin-bottom: 36px;
+            text-align: center;
+        }
+
+        .intro p {
+            margin: 0 0 8px;
+            color: #65748b;
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+        }
+
+        .intro h1 {
+            margin: 0;
+            font-size: clamp(2rem, 6vw, 3rem);
+        }
+
+        section {
+            margin-top: 22px;
+            padding: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 12px 32px rgba(48, 65, 100, 0.09);
+        }
+
+        section h2 {
+            margin: 0 0 16px;
+            color: #5368b5;
+            font-size: 1.1rem;
+        }
+
+        .links {
+            display: grid;
+            gap: 10px;
+        }
+
+        .links a {
+            display: block;
+            padding: 15px 18px;
+            border: 1px solid #edf0f7;
+            border-radius: 12px;
+            color: #29364a;
+            background: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .links a::after {
+            content: "→";
+            float: right;
+            color: #7185d2;
+        }
+
+        .links a:hover {
+            transform: translateY(-2px);
+            border-color: #bdc9f5;
+            box-shadow: 0 6px 16px rgba(72, 93, 160, 0.1);
+        }
+
+        .links a:focus-visible {
+            outline: 3px solid #9eafff;
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 40px 16px;
+            }
+
+            section {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>10월2일 작업</h1>
-    <a href="folktale/cover.html">동화책 만들기</a>
-    <br>
-    <br>
-    <a href="card/index.html">카드 만들기</a>
-    <br>
-    <br>
-    <a href="study/index.html">Java복습</a>
+    <main>
+        <header class="intro">
+            <p>MY PROJECTS</p>
+            <h1>작업 모음</h1>
+        </header>
+        <section>
+            <h2>10월 2일 작업</h2>
+            <div class="links">
+                <a href="folktale/cover.html">동화책 만들기</a>
+                <a href="card/index.html">카드 만들기</a>
+                <a href="study/index.html">Java 복습</a>
+            </div>
+        </section>
+        <section>
+            <h2>10월 15일 작업</h2>
+            <div class="links">
+                <a href="ajax/index.html">파충류 소개 페이지</a>
+            </div>
+        </section>
+    </main>
 </body>
 
 </html>

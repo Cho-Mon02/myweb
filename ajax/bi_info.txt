@@ -1,0 +1,49 @@
+<div class="gecko-card bearded-theme">
+    <div class="gecko-header">
+      <span class="badge bearded-badge">Agamid Lizard</span>
+      <h2>비어디 드래곤 (Bearded Dragon)</h2>
+      <p class="scientific-name">Pogona vitticeps</p>
+    </div>
+
+    <div class="gecko-image-wrapper">
+      <img src="images/bearded.png" alt="비어디 드래곤" class="gecko-img">
+    </div>
+
+    <div class="gecko-content">
+      <p class="description">
+        턱 밑에 턱수염 모양의 가시 돌기가 돋아 있어 '턱수염 도마뱀'으로 불리는 호주 원산의 주행성 도마뱀입니다.
+        성격이 매우 온순하며 사람과의 교감이 뛰어나고, 팔을 천천히 돌리는 암 웨이빙(Arm Waving)과 턱을 부풀리는 독특한 행동을 보여줍니다.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">바스킹존 온도</span>
+          <span class="info-value">38°C ~ 42°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">쿨존 온도</span>
+          <span class="info-value">26°C ~ 29°C</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">필수 조명</span>
+          <span class="info-value">UVB 10.0 이상 + 스팟 램프</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">주요 먹이 (잡식)</span>
+          <span class="info-value">채소(치커리, 청경채) + 귀뚜라미</span>
+        </div>
+      </div>
+
+      <div class="morph-section">
+        <h3>주요 모프 및 특징</h3>
+        <div class="morph-tags">
+          <span class="tag">노멀 (Normal)</span>
+          <span class="tag">레더백 (Leatherback)</span>
+          <span class="tag">하이포 (Hypo)</span>
+          <span class="tag">트랜슬루센트 (Trans)</span>
+          <span class="tag">위블링 (Witblits)</span>
+          <span class="tag">제로 (Zero)</span>
+        </div>
+      </div>
+    </div>
+  </div>
